@@ -32,13 +32,13 @@ class GraphEmbedding(object):
                 else:
                     listAux = [target]
                     self.nodeAdjacency[origin] = listAux
-                if target in self.nodeAdjacency:
-                    listAux = self.nodeAdjacency[target]
-                    listAux.append(origin)
-                    self.nodeAdjacency[target] = listAux
-                else:
-                    listAux = [origin]
-                    self.nodeAdjacency[target] = listAux
+                #if target in self.nodeAdjacency:
+                    #    listAux = self.nodeAdjacency[target]
+                    #    listAux.append(origin)
+                #    self.nodeAdjacency[target] = listAux
+                #else:
+                    #    listAux = [origin]
+                #    self.nodeAdjacency[target] = listAux
 
         with open('musae_facebook_target.csv', newline='',encoding="utf8") as csvfile:
             reader = csv.reader(csvfile, delimiter='\n', quotechar='"')
@@ -51,6 +51,7 @@ class GraphEmbedding(object):
         toFactorize = np.zeros(shape=(len(self.nodes), len(self.nodes)))
 
         for key in sorted(self.nodeAdjacency):
+            toFactorize[key][key]=1
             for val in self.nodeAdjacency[key]:
                 toFactorize[key][val] = 1
 
