@@ -7,6 +7,7 @@ import csv
 import csv
 import numpy as np
 from sklearn.decomposition import TruncatedSVD
+import random
 
 
 class GraphEmbedding(object):
@@ -17,7 +18,7 @@ class GraphEmbedding(object):
     result = None
 
     def __init__(self):
-        with open('musae_facebook_edges.csv', newline='',encoding="utf8") as csvfile:
+        with open('musae_facebook_edges.csv', newline='', encoding="utf8") as csvfile:
             reader = csv.reader(csvfile, delimiter=' ', quotechar='"')
             next(reader, None)
             for row in reader:
@@ -59,6 +60,29 @@ class GraphEmbedding(object):
         svd.fit(toFactorize)
         self.result = svd.transform(toFactorize)
 
+    def doWeHaveIt(self, page_name):
+        for i in self.nodeLabel:
+            if page_name in self.nodeLabel[i]:
+                print("Did you ment the page " + self.nodeLabel[i] + " ?")
+                correct_answer = False
+                while not correct_answer:
+                    is_the_one = str(input("'y' for yes, 'n' for no: "))
+                    if is_the_one == "y":
+                        return i
+                    elif is_the_one == 'n':
+                        correct_answer = True
+                    else:
+                        print("Sorry the answer didn't match the available options.")
+                        print("Try again.")
+
+        print("Sorry we don't have any " + page_name + " page.")
+        print("Do you want a random page or try again?")
+        option = input("'r' for random, 't' for try again: ")
+        if option == "r":
+            return random.randint(0, len(self.nodeLabel))
+        else:
+            return -1
+
     def getNearest(self, index):
 
         def find_nearest(matrix, array, originalIdx):
@@ -70,11 +94,15 @@ class GraphEmbedding(object):
             return auxDict
 
         nearestNodes = find_nearest(self.result, self.result[index], index)
+        self.printResults(index, nearestNodes)
 
-        print(self.nodeLabel[index])
-        iter=0
-        for w in sorted(nearestNodes, key=nearestNodes.get, reverse=False):
-            print(self.nodeLabel[w])
-            iter=iter+1
-            if iter==20:
-                break;
+    def printResults(self, index, results):
+        print("If you like the " + self.nodeLabel[index] + " page.")
+        print("Maybe you will also like:")
+
+        i = 0
+        for w in sorted(results, key=results.get, reverse=False):
+            print("    " + str(i) + ". " + self.nodeLabel[w] + " - " + str(int(results[w])))
+            i = i+1
+            if i == 20:
+                break
