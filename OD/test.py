@@ -9,11 +9,13 @@ def runTest():
     print("done")
 
     while True:
-        print("Enter a number (-1 to exit): ")
-        input1 = int(input())
-        if input1 == -1:
+        print("Enter a name of a Facebook page (enter the letter 'q' to quit): ")
+        input1 = str(input())
+        if input1 == "Q" or input1 == "q":
             break
-        graphEmbed.getNearest(input1)
+        index = graphEmbed.doWeHaveIt(input1)
+        if index != -1:
+            graphEmbed.getNearest(index)
 
     print("Goodbye!")
 
