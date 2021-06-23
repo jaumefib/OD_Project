@@ -107,7 +107,7 @@ class GraphEmbedding(object):
 
         i = 0
         for w in sorted(results, key=results.get, reverse=False):
-            print("    " + str(i) + ". " + self.nodeLabel[w] + " - " + str(np.linalg.norm(self.result[w]-self.result[index])))
+            print("    " + str(i) + ". " + self.nodeLabel[w] + " - " + str(round(np.linalg.norm(self.result[w]-self.result[index]),3)))
             i = i+1
             if i == 20:
                 break
