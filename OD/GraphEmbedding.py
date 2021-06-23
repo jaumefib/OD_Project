@@ -1,8 +1,3 @@
-# This is a sample Python script.
-
-# Press Mayús+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-import csv
 
 import csv
 import numpy as np
@@ -33,6 +28,14 @@ class GraphEmbedding(object):
                 else:
                     listAux = [target]
                     self.nodeAdjacency[origin] = listAux
+                if target in self.nodeAdjacency:
+                    listAux = self.nodeAdjacency[target]
+                    listAux.append(origin)
+                    self.nodeAdjacency[target] = listAux
+                else:
+                    listAux = [origin]
+                    self.nodeAdjacency[target] = listAux
+
 
         for origin in self.nodes:
             if origin in self.nodeAdjacency:
