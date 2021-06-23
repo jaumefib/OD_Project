@@ -68,7 +68,7 @@ class GraphEmbedding(object):
     def doWeHaveIt(self, page_name):
         for i in self.nodeLabel:
             if page_name in self.nodeLabel[i]:
-                print("Did you mean the page " + self.nodeLabel[i] + " ?")
+                print("Do you mean the page " + self.nodeLabel[i] + " ?")
                 correct_answer = False
                 while not correct_answer:
                     is_the_one = str(input("'y' for yes, 'n' for no: "))
